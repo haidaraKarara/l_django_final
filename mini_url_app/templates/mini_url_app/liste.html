@@ -1,0 +1,58 @@
+{% extends "base_message.html" %}
+{% load humanize %}
+    {% block nav%}
+        <ul>
+            <li>{% include  'i18n.html' %}</li>
+            <li><a href="{% url 'url_nouveau' %}">Raccourcir une URL.</a></li>
+            <li><a href="{% url 'logout'%}"> Déconnexion</a> </li>
+        </ul>
+    {% endblock%}
+    {% block content %}
+        <p>Bienvenue <strong>{{user.username|upper}}</strong> ,Voici la liste des URL raccourcies :</p>
+        <ol>
+            {% for mini in minis %}
+            <li>
+                <a href="{% url 'url_update' mini.code %}">Mettre à jour</a> - 
+                <a href="{% url 'url_delete' mini.code %}">Supprimer</a>
+                | {{ mini.url|truncatechars:30 }} via <a href="http://{{ request.get_host }}{% url 'url_redirection' mini.code %}">{{ request.get_host }}{% url "url_redirection" mini.code %}</a>
+                {% if mini.pseudo %}par <strong>{{ mini.pseudo|upper }}</strong>{% endif %} ({{ mini.nb_acces }} accès)</li>
+            
+            {% empty %}
+            <li>Il n'y en a pas actuellement.</li>
+            {% endfor %}
+        </ol>
+        <hr />
+        {% comment %} <p>{{ 300|intcomma }}</p>
+        {{ "9000"|intcomma }}<br />
+        {{ 90000|intcomma }}<br />
+        {{ 9000000|intcomma }} <br />
+        {{ 1|ordinal }}   renvoie 1<sup>er</sup><br /> {% endcomment %}
+
+    {% endblock %}
+
+{% comment %} 
+<ul> <!-- pour une pagination-->
+    {% for mini in minis %}
+    <li> <a href="{% url 'url_update' mini.code %}">Mettre à jour</a> -  <a href="{% url 'url_delete' mini.code %}">Supprimer</a>
+    | {{ mini.url }} via <a href="http://{{ request.get_host }}{% url 'url_redirection' mini.code %}">
+                            {{ request.get_host }}{% url 'url_redirection' mini.code %}
+                         </a> {% if mini.pseudo %}par {{ mini.pseudo }}{% endif %} 
+    ({{ mini.nb_acces }} accès)</li>
+    {% empty %}
+    <li>Il n'y en a pas actuellement.</li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+   {% if minis.has_previous %}
+       <a href="{% url 'url_liste' minis.previous_page_number %}">Précédente</a> -
+   {% endif %}
+
+   <span class="current">
+       Page {{ minis.number }} sur {{ minis.paginator.num_pages }}
+   </span>
+
+   {% if minis.has_next %}
+       - <a href="{% url 'url_liste' minis.next_page_number %}">Suivante</a>
+   {% endif %}
+</div> {% endcomment %}

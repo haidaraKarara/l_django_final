@@ -1,0 +1,17 @@
+<h1>Modifier Mdp</h1>
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit"/>
+</form>
+<style>
+    .errorlist
+    {
+        color: red;
+    }
+    .error input
+    {
+        border: 2px red solid;
+    }
+</style>

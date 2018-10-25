@@ -1,0 +1,36 @@
+<!-- squelette de notre application -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   {% comment %} <link rel="stylesheet" href="/media/css/style.css" /> {% endcomment %}
+   <title>{% block title %}Mini URL App{% endblock %}</title>
+</head>
+<body>
+<header><h1>Le raccourcisseur d'URL spécial crêpes bretonnes !</h1></header>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    <nav>
+       {% block nav %}
+       <ul>
+            <li><a href="#">Accueil</a></li>
+       </ul>
+       {% endblock %}
+   </nav>
+   <section id="content">
+       {% block content %}
+            
+       {% endblock %}
+   </section>
+<footer>&copy; Mini URL App</footer>
+<style>
+    .messages .success{color:green}
+    .messages .fail{color:fuchsia}
+</style>
+</body>
+</html>
+
